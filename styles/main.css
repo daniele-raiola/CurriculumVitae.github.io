@@ -22,8 +22,21 @@
     --spacing-lg: 2rem;
     --spacing-xl: 3rem;
     
-    --transition: all 0.3s ease;
-    --transition-fast: all 0.15s ease;
+    --transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    
+    /* Neumorphism Shadow Depth */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.3);
+    --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-inset-light: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
 }
 
 /* CSS Variables - Light Mode */
@@ -36,6 +49,14 @@
         --color-accent: #0969da;
         --color-border: #d0d7de;
         --color-hover: #0860ca;
+        
+        /* Light Mode Shadow Depth */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+        --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.15);
+        --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-inset-light: inset 0 1px 2px rgba(0, 0, 0, 0.03);
     }
 }
 
@@ -59,7 +80,7 @@ body {
     color: var(--color-text);
     line-height: 1.6;
     letter-spacing: -0.3px;
-    transition: background-color 0.5s ease, color 0.5s ease;
+    transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 
 /* ============================================================================
@@ -80,9 +101,19 @@ h1 {
 
 h2 {
     font-size: 2rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: none;
     padding-bottom: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent) 30%, transparent 100%);
+    margin-top: var(--spacing-md);
 }
 
 h3 {
@@ -123,12 +154,28 @@ p {
 a {
     color: var(--color-accent);
     text-decoration: none;
-    transition: var(--transition-fast);
+    transition: color var(--transition-fast);
+    position: relative;
 }
 
 a:hover {
     color: var(--color-hover);
-    text-decoration: underline;
+    text-decoration: none;
+}
+
+a:not(.nav-link):not(.download-btn)::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-hover);
+    transition: width var(--transition-fast);
+}
+
+a:not(.nav-link):not(.download-btn):hover::after {
+    width: 100%;
 }
 
 /* ============================================================================
@@ -151,17 +198,20 @@ main {
 
 .header {
     background-color: var(--color-bg-alt);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: none;
     position: sticky;
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
     background-color: rgba(13, 17, 23, 0.85);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition);
 }
 
 @media (prefers-color-scheme: light) {
     .header {
         background-color: rgba(255, 255, 255, 0.85);
+        box-shadow: var(--shadow-md);
     }
 }
 
@@ -192,12 +242,14 @@ main {
     padding: var(--spacing-xs) var(--spacing-sm);
     border-bottom: 2px solid transparent;
     transition: var(--transition-fast);
+    position: relative;
 }
 
 .nav-link:hover {
     color: var(--color-accent);
     border-bottom-color: var(--color-accent);
     text-decoration: none;
+    transform: translateY(-2px);
 }
 
 /* ============================================================================
@@ -206,10 +258,6 @@ main {
 
 .section {
     padding: var(--spacing-xl) 0;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.section:last-of-type {
     border-bottom: none;
 }
 
@@ -227,14 +275,23 @@ main {
 .education-item,
 .work-item {
     margin-bottom: var(--spacing-xl);
-    padding-bottom: var(--spacing-lg);
-    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+    border-bottom: none;
+    background-color: var(--color-bg-alt);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.education-item:hover,
+.work-item:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
 }
 
 .education-item:last-child,
 .work-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .education-header,
@@ -312,19 +369,21 @@ main {
 .skill-category {
     padding: var(--spacing-lg);
     background-color: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
     transition: var(--transition);
 }
 
 .skill-category:hover {
-    border-color: var(--color-accent);
-    background-color: rgba(88, 166, 255, 0.05);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    background-color: var(--color-bg-alt);
 }
 
 @media (prefers-color-scheme: light) {
     .skill-category:hover {
-        background-color: rgba(9, 105, 218, 0.05);
+        background-color: var(--color-bg-alt);
     }
 }
 
@@ -416,21 +475,23 @@ main {
 .certificate-item {
     padding: var(--spacing-lg);
     background-color: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
     transition: var(--transition);
 }
 
 .reference-item:hover,
 .certificate-item:hover {
-    border-color: var(--color-accent);
-    background-color: rgba(88, 166, 255, 0.05);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    background-color: var(--color-bg-alt);
 }
 
 @media (prefers-color-scheme: light) {
     .reference-item:hover,
     .certificate-item:hover {
-        background-color: rgba(9, 105, 218, 0.05);
+        background-color: var(--color-bg-alt);
     }
 }
 
@@ -476,9 +537,10 @@ main {
 
 .footer {
     background-color: var(--color-bg-alt);
-    border-top: 1px solid var(--color-border);
+    border-top: none;
     padding: var(--spacing-xl) 0;
     margin-top: var(--spacing-xl);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .contact-info {
@@ -502,10 +564,11 @@ main {
 
 .footer-meta {
     padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--color-border);
+    border-top: none;
     font-size: 0.9rem;
     color: var(--color-text-secondary);
     text-align: center;
+    margin-top: var(--spacing-lg);
 }
 
 .copyright {
@@ -530,26 +593,35 @@ main {
     padding: var(--spacing-sm) var(--spacing-lg);
     background-color: var(--color-accent);
     color: var(--color-bg);
-    border: 2px solid var(--color-accent);
-    border-radius: 6px;
+    border: none;
+    border-radius: var(--border-radius-md);
     font-weight: 600;
     font-size: 1rem;
     transition: var(--transition);
     text-decoration: none;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
 .download-btn:hover {
     background-color: var(--color-hover);
-    border-color: var(--color-hover);
     color: var(--color-bg);
     text-decoration: none;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.download-btn:active {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
 @media (prefers-color-scheme: light) {
-    .download-btn:hover {
-        box-shadow: 0 4px 12px rgba(9, 105, 218, 0.15);
+    .download-btn:active {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
     }
 }
 
