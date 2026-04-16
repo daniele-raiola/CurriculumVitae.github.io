@@ -452,38 +452,6 @@ main {
     color: var(--color-text-light);
     margin-bottom: var(--spacing-sm);
 }
-}
-
-.reference-title {
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-sm);
-}
-
-.reference-contact {
-    list-style: none;
-}
-
-.reference-contact li {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-xs);
-}
-
-.reference-contact li:last-child {
-    margin-bottom: 0;
-}
-
-.cert-title {
-    font-size: 1.1rem;
-    margin-bottom: var(--spacing-xs);
-}
-
-.cert-issuer {
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-sm);
-}
 
 /* ============================================================================
    FOOTER / CONTACT
