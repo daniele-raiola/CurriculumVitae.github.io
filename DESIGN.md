@@ -87,3 +87,26 @@ Breakpoints: 425–1664px (23 breakpoints)
 - CTA: Airtable Blue (`#1b61c9`)
 - Background: White (`#ffffff`)
 - Border: `#e0e2e6`
+
+## 10. Dark Mode
+The design system supports dark mode with the following color palette (triggered via `data-theme="dark"` attribute on `<html>`):
+
+### Dark Mode Colors
+| Role | Light Mode | Dark Mode |
+|------|------------|-----------|
+| Background | `#ffffff` | `#121518` |
+| Text | `#181d26` | `#e8eaed` |
+| Accent | `#1b61c9` | `#5f9fff` |
+| Button Spotlight | `rgba(249,252,255,0.97)` | `rgba(18,21,24,0.97)` |
+| Success Green | `#006640` | `#4ade80` |
+| Weak Text | `rgba(4,14,32,0.69)` | `rgba(200,204,210,0.69)` |
+| Secondary Active | `rgba(7,12,20,0.82)` | `rgba(200,204,210,0.82)` |
+| Secondary Text | `#333333` | `#a0a4a9` |
+| Mid Blue | `#254fad` | `#7ab3ff` |
+| Border | `#e0e2e6` | `#2d333b` |
+| Surface Light | `#f8fafc` | `#1c2126` |
+
+### Dark Mode Behavior
+- Respects `prefers-color-scheme: dark` CSS media query on first visit
+- Stores user preference in `localStorage` under key `theme`
+- Theme toggle button in header with sun/moon icons

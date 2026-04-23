@@ -49,6 +49,23 @@
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* === DARK MODE === */
+[data-theme="dark"] {
+    --theme-bg: #121518;
+    --theme-text: #e8eaed;
+    --theme-accent: #5f9fff;
+    --theme-button-text-spotlight: rgba(18, 21, 24, 0.97);
+    --theme-success-text: #4ade80;
+    --theme-text-weak: rgba(200, 204, 210, 0.69);
+    --theme-button-text-secondary-active: rgba(200, 204, 210, 0.82);
+    --theme-secondary-text: #a0a4a9;
+    --theme-mid-blue: #7ab3ff;
+    --theme-border: #2d333b;
+    --theme-surface-light: #1c2126;
+    --theme-shadow-blue: 0 0 1px rgba(0, 0, 0, 0.32), 0 0 2px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(95, 159, 255, 0.28), 0 0 0 0.5px inset rgba(0, 0, 0, 0.06);
+    --theme-shadow-soft: 0 0 20px rgba(95, 159, 255, 0.08);
+}
+
 /* ============================================================================
    RESET & BASE
    ============================================================================ */
@@ -257,7 +274,7 @@ main {
 
 .nav {
     display: flex;
-    gap: var(--space-4);
+    gap: var(--space-3);
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
@@ -295,6 +312,81 @@ main {
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
+}
+
+/* ============================================================================
+    THEME TOGGLE
+    ============================================================================ */
+
+.theme-toggle {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    padding: 2px;
+    background: var(--theme-surface-light);
+    border: 1px solid var(--theme-border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    border-color: var(--theme-accent);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+}
+
+.theme-toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--theme-bg);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.theme-toggle-thumb svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+}
+
+.theme-toggle-thumb .icon-sun {
+    display: block;
+    stroke: var(--theme-accent);
+}
+
+.theme-toggle-thumb .icon-moon {
+    display: none;
+    stroke: var(--theme-accent);
+}
+
+[data-theme="dark"] .theme-toggle-thumb .icon-sun {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle-thumb .icon-moon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: var(--theme-accent);
+    border-color: var(--theme-accent);
+}
+
+[data-theme="dark"] .theme-toggle-thumb {
+    transform: translateX(24px);
+    background: var(--theme-bg);
 }
 
 /* ============================================================================
